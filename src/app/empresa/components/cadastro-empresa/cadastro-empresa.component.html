@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col col-2 flex-fill pt-3">
+<!--    <button class="btn btn-sm btn-primary" (click)="selecioneRamoAtividade()">Cadastrar empresa</button>-->
+  </div>
+  <div class="col col-10">
+    <div class="row">
+      <div class="col col-2 pt-2">
+        <button class="btn btn-sm btn-primary" (click)="selecioneRamoAtividade()">Cadastrar empresa</button>
+      </div>
+      <div class="col col-10">
+        <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cardx p-1" style="height: 98%; overflow: hidden">
+  <router-outlet></router-outlet>
+</div>
+
+<div class="card flex justify-content-center" *ngIf="empresa">
+  <p-dialog header="Header" [(visible)]="showModal" [style]="{ width: '35vw' }"
+            [draggable]="false" [resizable]="false" [modal]="true">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Cadastro de empresa</span>
+    </ng-template>
+    <form #f="ngForm" autocomplete="off">
+      <div class="flex flex-column gap-2">
+        <div class="row g-3 pt-2">
+          <label for="nome" class="form-label col-6">Nome: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required pInputText type="text" class="form-control" id="nome" name="nome" [(ngModel)]="empresa.nome">
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <div class="col-md-6">
+            <label for="tipoPessoa" class="form-label col-6">Tipo: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-dropdown [(ngModel)]="empresa.tipoPessoa" [options]="tipos" [style]="{'width':'100%'}"
+                        name="tipoPessoa" id="tipoPessoa" (onChange)="selecioneTipoPessoa()"></p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="cnpjCpf" class="form-label col-6">{{tipoDocumento}}: *</label>
+            <div class="col-12">
+              <p-inputMask [required]="true" *ngIf="empresa.pessoaJuridica" name="cnpj" [unmask]="true"
+                           id="cnpjCpf" [(ngModel)]="empresa.cnpjCpf" mask="99.999.999/9999-99"></p-inputMask>
+              <p-inputMask [required]="true" *ngIf="!empresa.pessoaJuridica" name="cpf" [unmask]="true"
+                           id="cnpjCpf" [(ngModel)]="empresa.cnpjCpf" mask="999.999.999-99"></p-inputMask>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <div class="col-md-6">
+            <label for="tipoPessoa" class="form-label col-6">Celular:</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-inputMask name="celular" id="celular" [(ngModel)]="empresa.celular" mask="(99) 99999-999?9" [unmask]="true"></p-inputMask>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="cnpjCpf" class="form-label col-6">Telefone:</label>
+            <div class="col-12">
+              <p-inputMask name="telefone" id="telefone" [(ngModel)]="empresa.telefone" mask="(99) 99999-999?9" [unmask]="true"></p-inputMask>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <label for="email" class="form-label col-6">e-mail: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input [required]="true" type="text" pInputText class="form-control" name="email" id="email" [(ngModel)]="empresa.email"/>
+          </div>
+        </div>
+        <div class="row g-3 pt-2 pb-2">
+          <label for="email" class="form-label col-6">Ramo de atividade:</label>
+          <div class="col-12 pt-0 mt-0">
+            <p-dropdown [required]="true" appendTo="body" [(ngModel)]="empresa.ramoAtividade" [options]="ramosAtividades" [style]="{'width':'100%'}"
+                        name="ramoAtividade" id="ramoAtividade"></p-dropdown>
+          </div>
+        </div>
+        <hr>
+        <div class="row g-3">
+          <label for="email" class="form-label col-6">Nome do Responsável:</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required type="text" pInputText class="form-control" name="nomeResponsavel" id="nomeResponsavel"
+                   [(ngModel)]="empresa.responsavel.nome"/>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <label for="email" class="form-label col-6">CPF do Responsável:</label>
+          <div class="col-12 pt-0 mt-0">
+            <p-inputMask [required]="true" name="cpfResponsavel" id="cpfResponsavel" [unmask]="true"
+                         [(ngModel)]="empresa.responsavel.cpf" mask="999.999.999-99"></p-inputMask>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <label for="email" class="form-label col-6">Senha do usuário admin:</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required type="password" pInputText class="form-control" name="senhaResponsavel"
+                   id="senhaResponsavel" [(ngModel)]="empresa.responsavel.senha"/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ng-template pTemplate="footer">
+      <button pButton class="btn btn-sm btn-success me-2" (click)="save()" [disabled]="f.invalid">
+        <i class="pi pi-check" aria-hidden="true"></i> Salvar
+      </button>
+      <button pButton class="btn btn-sm btn-danger" (click)="showModal = false">
+        <i class="pi pi-" aria-hidden="true"></i> Cancelar
+      </button>
+    </ng-template>
+  </p-dialog>
+</div>

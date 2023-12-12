@@ -1,0 +1,267 @@
+<div class="card bg-verde-claro" *ngIf="empresa">
+  <div class="card-body">
+    <h3 class="card-title mb-3">Visualização dos dados da empresa</h3>
+    <form #f="ngForm" autocomplete="off">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-0 mt-1">
+            <label class="col-form-label col-md-3 col-xl-2 text-start text-md-end">
+              <span>Tipo: </span>
+            </label>
+            <label class="col-form-label col-md-9 col-xl-10 text-start text-md-start">{{empresa.descricaoTipo}}</label>
+          </div>
+          <div class="form-group row mb-2 mt-0">
+            <label class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span *ngIf="!empresa.pessoaJuridica">CPF: *</span>
+              <span *ngIf="empresa.pessoaJuridica">CNPJ: *</span>
+            </label>
+            <label class="col-md-9 col-xl-10 text-start text-md-start pt-1">
+              <span><b>{{usuario.empresa.cnpjCpf}}</b></span>
+            </label>
+          </div>
+          <div class="form-group row mb-0 mt-2">
+            <label for="telefone" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Telefone para contato: *</span>
+            </label>
+            <div class="col-md-3 col-xl-2">
+              <p-inputMask name="telefone" id="telefone" mask="(99)9?9999-9999" [style]="{'width':'100%'}" [(ngModel)]="empresa.celular"></p-inputMask>
+            </div>
+          </div>
+          <div class="form-group row mb-0 mt-2">
+            <label for="email" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>E-mail para contato: *</span>
+            </label>
+            <div class="col-md-9 col-xl-10">
+              <input pInputText type="email" id="email" name="email" size="30" [style]="{'width':'100%'}" [(ngModel)]="empresa.email">
+            </div>
+          </div>
+
+          <!--
+
+          <div class="form-group row mb-0 mt-2" *ngIf="iniciado == true">
+            <label for="email2" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Confirme o e-mail para contato: *</span>
+            </label>
+            <div class="col-md-9 col-xl-10">
+              <input pInputText
+                     id="email2"
+                     name="email2"
+                     type="email"
+                     required
+                     email
+                     size="30"
+                     onpaste="return false;"
+                     autocomplete="no"
+                     [style]="{'width':'100%'}"
+                     (keyup)="checaEmail()"
+                     [disabled]="importadoElic"
+                     [(ngModel)]="email2">
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-0" *ngIf="iniciado == true">
+            <label class="col-form-label col-md-3 col-xl-2 text-start text-md-end">
+              <span>Receber avisos por e-mail: *</span>
+            </label>
+            <label class="col-form-label col-md-9 col-xl-10 text-start text-md-start">
+              <p-radioButton name="aviso"
+                             inputId="aviso"
+                             value="RECEBER"
+                             label="Receber"
+                             [(ngModel)]="receberAviso">
+              </p-radioButton>
+              <p-radioButton name="aviso"
+                             class="ms-4"
+                             inputId="aviso"
+                             value="NAO_RECEBER"
+                             label="Não Receber"
+                             [(ngModel)]="receberAviso">
+              </p-radioButton>
+              <p-radioButton name="aviso"
+                             class="ms-4"
+                             inputId="aviso"
+                             value="RECEBER_GRUPO_CLASSE"
+                             label="Receber Grupo Classe"
+                             [(ngModel)]="receberAviso"
+                             *ngIf="importadoElic == true">
+              </p-radioButton>
+            </label>
+          </div-->
+
+        </div>
+      </div>
+
+      <!--div class="card mt-3" *ngIf="iniciado == true">
+        <div class="card-body pt-3">
+          <h5 class="card-title">Endereço</h5>
+          <div class="form-group row mb-0 mt-2">
+            <label for="cep" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>CEP: *</span>
+            </label>
+            <div class="col-md-3 col-xl-2">
+              <p-inputMask name="cep"
+                           id="cep"
+                           mask="99999-999"
+                           [style]="{'width':'100%'}"
+                           [disabled]="importadoElic"
+                           [required]="true"
+                           [(ngModel)]="cep"
+                           (onBlur)="recuperarEndereco()">
+              </p-inputMask>
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-2">
+            <label for="logradouro" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Logradouro: *</span>
+            </label>
+            <div class="col-md-9 col-xl-10">
+              <input pInputText
+                     name="logradouro"
+                     id="logradouro"
+                     minlength="5"
+                     maxlength="200"
+                     required
+                     [style]="{'width':'100%'}"
+                     [disabled]="importadoElic"
+                     [(ngModel)]="logradouro">
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-2">
+            <label for="numero" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Número:</span>
+            </label>
+            <div class="col-md-3 col-xl-2">
+              <input pInputText
+                     name="numero"
+                     id="numero"
+                     maxlength="10"
+                     [style]="{'width':'100%'}"
+                     [disabled]="importadoElic"
+                     [(ngModel)]="numero">
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-2">
+            <label for="complemento" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Complemento:</span>
+            </label>
+            <div class="col-md-3 col-xl-2">
+              <input pInputText
+                     name="complemento"
+                     id="complemento"
+                     maxlength="100"
+                     [style]="{'width':'100%'}"
+                     [disabled]="importadoElic"
+                     [(ngModel)]="complemento">
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-2">
+            <label for="bairro" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Bairro: *</span>
+            </label>
+            <div class="col-md-9 col-xl-10">
+              <input pInputText
+                     name="bairro"
+                     id="bairro"
+                     minlength="2"
+                     maxlength="100"
+                     required
+                     [style]="{'width':'100%'}"
+                     [disabled]="importadoElic"
+                     [(ngModel)]="bairro">
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-2">
+            <label for="cidade" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Cidade: *</span>
+            </label>
+            <div class="col-md-9 col-xl-10">
+              <input pInputText
+                     name="cidade"
+                     id="cidade"
+                     minlength="3"
+                     maxlength="100"
+                     required
+                     [style]="{'width':'100%'}"
+                     [disabled]="importadoElic"
+                     [(ngModel)]="cidade">
+            </div>
+          </div>
+
+          <div class="form-group row mb-0 mt-2">
+            <label for="estado" class="col-md-3 col-xl-2 text-start text-md-end pt-1">
+              <span>Estado: *</span>
+            </label>
+            <div class="col-md-5 col-xl-3">
+              <p-dropdown name="estado"
+                          id="estado"
+                          placeholder="Selecione o Estado..."
+                          optionLabel="descricaoComSigla"
+                          emptyFilterMessage="Nenhum registro encontrado"
+                          [required]="true"
+                          [filter]="true"
+                          [(ngModel)]="estado"
+                          [disabled]="importadoElic"
+                          [options]="estados">
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div-->
+
+<!--      BOTÕES-->
+<!--      <div class="btn-toolbar mt-4">-->
+<!--        <button type="button" routerLink="/login" class="btn btn-sm btn-secondary">-->
+<!--          <i class="fa fa-arrow-left" aria-hidden="true"></i>-->
+<!--          <span> Cancelar</span>-->
+<!--        </button>-->
+<!--        <button type="submit" class="btn btn-sm btn-success ms-2" [disabled]="f.invalid">-->
+<!--          <i class="fa fa-check" aria-hidden="true"></i>-->
+<!--          <span>{{ (salvandoCadastro ? ' Por favor, aguarde...' : !iniciado ? ' Iniciar cadastro' : ' Efetuar cadastro') }}</span>-->
+<!--        </button>-->
+<!--      </div>-->
+    </form>
+
+    <!--div class="card alert alert-warning mt-4 mb-0" role="alert" *ngIf="tipoErro==1">
+      <div class="card-title">
+        <b>{{tituloErro}}</b>
+      </div>
+      <div>
+        <span *ngIf="(pjf == 'cnpj')">O CNPJ informado já possui cadastro no sistema.</span>
+        <span *ngIf="(pjf == 'cpf')">O CPF informado já possui cadastro no sistema</span><br>
+        <span>Por favor, tente efetuar o login novamente.</span><br>
+        <span>Caso tenha esquecido a senha, clique no link "<a routerLink="/esqueci-minha-senha">
+        <span> Esqueci a senha</span>
+      </a>".</span>
+      </div>
+    </div>
+    <div class="card alert alert-danger mt-3 mb-0" role="alert" *ngIf="tipoErro==2">
+      <div class="card-title">
+        <b>{{tituloErro}}</b>
+      </div>
+      <div>
+        <ul class="mt-2 mb-0">
+          <li *ngFor="let msg of erros">{{msg}}</li>
+        </ul>
+        <p class="card-text mt-3">
+          <span>Por favor tente novamente. Se o problema permanecer, entre em contato com o suporte do sistema através do email: </span>
+          <a href = "mailto: gesic@sea.sc.gov.br">gesic@sea.sc.gov.br</a>
+        </p>
+      </div>
+    </div>
+    <div class="card alert alert-warning mt-4 mb-0" role="alert" *ngIf="tipoErro==3">
+      <div class="card-title">
+        <b>{{tituloErro}}</b>
+      </div>
+      <div>
+        <ul class="mt-2 mb-0">
+          <li *ngFor="let msg of erros">{{msg}}</li>
+        </ul>
+      </div>
+    </div-->
+  </div>
+</div>

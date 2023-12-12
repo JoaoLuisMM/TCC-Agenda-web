@@ -1,0 +1,30 @@
+<div class="wrapper" style="overflow: hidden;">
+  <app-header-logado *ngIf="showCabecalhoLogado"></app-header-logado>
+  <app-header-nao-logado *ngIf="!showCabecalhoLogado"></app-header-nao-logado>
+  <div class="v-100" style="padding-top: 60px; padding-left: 12px">
+    <router-outlet></router-outlet>
+  </div>
+  <footer class="d-none d-md-block d-lg-block d-xl-block app-footer">
+    <div class="container-fluid row">
+      <div class="float-left d-none d-lg-block d-xl-block col-6">
+        <a href="https://www.ifsc.edu.br/" target="_blank">Instituto Federal de Santa Catarina</a>
+      </div>
+      <div class="text-muted text-end col-6">
+        <span>Controle de Agendamentos - Desenvolvido por</span> João Luis
+      </div>
+    </div>
+  </footer>
+</div>
+
+<p-toast [life]="7000"></p-toast>
+
+<p-confirmDialog header="Confirmação" icon="fa fa-question-circle" #confirmacao>
+  <p-footer>
+    <button type="button" pButton class="btn btn-sm btn-success me-2" (click)="confirmacao.accept()">
+      <i class="fa fa-check"></i> Sim
+    </button>
+    <button type="button" class="btn btn-sm btn-danger" pButton (click)="confirmacao.reject()">
+      <i class="fa fa-times"></i> Não
+    </button>
+  </p-footer>
+</p-confirmDialog>

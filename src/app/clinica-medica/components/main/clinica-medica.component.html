@@ -1,0 +1,24 @@
+<div class="row" style="overflow: hidden;">
+  <div class="col-2 p-0 ps-1">
+<!--    <p-listbox [options]="itensMenu" [style]="{height: '100%'}" (onClick)="navigate($event)" optionLabel="name"></p-listbox>-->
+    <nav class="navbar">
+      <ul class="navbar-menu" [hidden]="!exibindoMenu">
+        <li class="navbar-menuitem" routerLinkActive="ativo" *ngIf="usuario.isRecepcionista()">
+          <a routerLink="/clinica-medica/dashboard">Dashboard</a>
+        </li>
+        <li class="navbar-menuitem" routerLinkActive="ativo" *ngIf="usuario.isRecepcionista()">
+          <a routerLink="/clinica-medica/pacientes">Pacientes</a>
+        </li>
+        <li class="navbar-menuitem" routerLinkActive="ativo" *ngIf="usuario.isAdministrador()">
+          <a routerLink="/clinica-medica/funcionarios">Funcionários</a>
+        </li>
+        <li class="navbar-menuitem" routerLinkActive="ativo" *ngIf="usuario.isOperacional()">
+          <a routerLink="/clinica-medica/consulta">Consulta</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="col-10 pl-0 pt-0">
+    <router-outlet></router-outlet>
+  </div>
+</div>

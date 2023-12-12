@@ -1,0 +1,70 @@
+<div class="card flex justify-content-center mt-0">
+  <p-card header="Lista de pacientes">
+    <p-table [value]="clientes" styleClass="p-datatable-gridlines"
+      [responsive]="true"
+      dataKey="id"
+      [paginator]="true"
+      [rows]="10"
+      #dataTableClientes
+      [lazy]="false"
+      [totalRecords]="totalRegistros"
+      [globalFilterFields]="['nome', 'sobrenome', 'cpf', 'data']"
+      (onLazyLoad)="aoMudarPagina($event)">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <button class="btn btn-sm btn-outline-info me-2" (click)="clear(dataTableClientes)">
+            <i class="fa fa-filter"></i> Limpar
+          </button>
+          <span class="p-input-icon-left ml-auto">
+            <i class="fa fa-search"></i>
+            <input class="ps-4 ms-2" pInputText #campoPesquisa type="text" (input)="dataTableClientes.filterGlobal(campoPesquisa.value, 'contains')"
+              placeholder="Pesquisar" />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="text-center">
+          <th class="col-1">Código</th>
+          <th class="col-6">Nome</th>
+          <th class="col-2">CPF</th>
+          <th class="col-2">Data de Nascimento</th>
+          <th class="col-1">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cliente>
+        <tr>
+          <td class="colunaCodigo">{{ cliente.id }}</td>
+          <td>{{ cliente.nome }}</td>
+          <td class="text-center">{{ cliente.cpfFormatado }}</td>
+          <td class="text-center">{{ cliente.dataNascimento | date:'dd/MM/yyyy' }}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-sm btn-success" (click)="editCliente(cliente)"
+                    pTooltip="Edição dos dados de um cliente" tooltipPosition="left">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button *ngIf="!cliente.inativo" type="button" class="btn btn-sm btn-danger ms-1"
+                    pTooltip="Inativa o cliente com CPF {{cliente.cpfFormatado}}" tooltipPosition="left"
+                    (click)="updateSituacaoCliente(cliente)">
+              <i class="fa fa-lock"></i>
+            </button>
+            <button *ngIf="cliente.inativo" type="button" class="btn btn-sm btn-primary ms-1"
+                    pTooltip="Ativa o cliente com CPF {{cliente.cpfFormatado}}" tooltipPosition="left"
+                    (click)="updateSituacaoCliente(cliente)">
+              <i class="fa fa-unlock"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+      <button class="btn btn-sm btn-primary" (click)="novo()"
+              pTooltip="Abre o formulário para criar novo cliente" tooltipPosition="right">
+        <i class="fa fa-plus"></i> Novo cliente
+      </button>
+    </ng-template>
+  </p-card>
+</div>
+
+<div class="card flex justify-content-center">
+  <app-form-cadastro-cliente [visible]="showDialog" [cliente]="cliente" (closeDialog)="closeDialog($event)" (saveOrUpdate)="save($event)"></app-form-cadastro-cliente>
+</div>

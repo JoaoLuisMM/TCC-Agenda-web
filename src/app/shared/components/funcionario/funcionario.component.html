@@ -1,0 +1,124 @@
+<div class="card flex justify-content-center mt-0">
+  <p-card header="Lista de Funcionários">
+    <p-table [value]="funcionarios" styleClass="p-datatable-gridlines"
+             [responsive]="true"
+             dataKey="id"
+             [paginator]="true"
+             [rows]="10"
+             #dataTableMedicos
+             [lazy]="false"
+             [totalRecords]="totalRegistros"
+             [globalFilterFields]="['nome', 'sobrenome', 'cpf', 'data']"
+             (onLazyLoad)="aoMudarPagina($event)">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <button class="btn btn-sm btn-outline-info me-2" (click)="clear(dataTableMedicos)">
+            <i class="fa fa-filter"></i> Limpar
+          </button>
+          <span class="p-input-icon-left ml-auto">
+            <i class="fa fa-search"></i>
+            <input class="ps-4 ms-2" pInputText #campoPesquisa type="text" (input)="dataTableMedicos.filterGlobal(campoPesquisa.value, 'contains')"
+                   placeholder="Pesquisar" />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="text-center">
+          <th class="col-1">Código</th>
+          <th class="col-6">Nome</th>
+          <th class="col-2">CPF</th>
+          <th class="col-1">Permissão</th>
+          <th class="col-1">Situação</th>
+          <th class="col-1">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-funcionario>
+        <tr>
+          <td class="colunaCodigo">{{ funcionario.id }}</td>
+          <td>{{ funcionario.nome }}</td>
+          <td class="text-center">{{ funcionario.cpf }}</td>
+          <td class="text-center">{{ getDescricaoPermissao(funcionario.papel) }}</td>
+          <td class="text-center">{{ funcionario.situacao }}</td>
+          <td class="text-center">
+            <button type="button" pTooltip="Edição de funcionário" tooltipPosition="left"
+                    class="btn btn-sm btn-success" (click)="editMedico(funcionario)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button *ngIf="!funcionario.inativo" [disabled]="!isPodeAtivarInativar(funcionario)" type="button"
+                    pTooltip="Inativação de funcionário" tooltipPosition="left"
+                    class="btn btn-sm btn-danger ms-1" (click)="updateSituacaoCliente(funcionario)">
+              <i class="fa fa-lock"></i>
+            </button>
+            <button *ngIf="funcionario.inativo" [disabled]="!isPodeAtivarInativar(funcionario)" type="button"
+                    pTooltip="Ativação de funcionário" tooltipPosition="left"
+                    class="btn btn-sm btn-primary ms-1" (click)="updateSituacaoCliente(funcionario)">
+              <i class="fa fa-unlock"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+      <button class="btn btn-sm btn-primary" (click)="novo()">
+        <i class="fa fa-plus"></i> Novo funcionário
+      </button>
+    </ng-template>
+  </p-card>
+</div>
+
+<div class="card flex justify-content-center" *ngIf="funcionario">
+  <p-dialog header="Header" *ngIf="funcionario" [(visible)]="visible" [modal]="true"
+            [draggable]="false" [resizable]="false" [style]="{ width: '45vw' }">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">{{titulo}}</span>
+    </ng-template>
+    <form #f="ngForm" autocomplete="off">
+      <div class="flex flex-column gap-2">
+        <div class="row g-3 pt-2">
+          <label for="nome" class="form-label col-6">Nome: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required pInputText type="text" class="form-control" placeholder="Informe o nome do funcionário"
+                   id="nome" name="nome" [(ngModel)]="funcionario.nome">
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <label for="email" class="form-label col-6">e-mail: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input [required]="true" type="text" pInputText class="form-control" placeholder="Informe o e-mail do funcionário"
+                   name="email" id="email" [(ngModel)]="funcionario.email"/>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <div class="col-4">
+            <label for="cnpjCpf" class="form-label col-6">CPF: *</label>
+            <div class="col-12">
+              <p-inputMask [required]="true" name="cpf" [unmask]="true" placeholder="Informe o CPF do funcionário"
+                           id="cnpjCpf" [(ngModel)]="funcionario.cpf" mask="999.999.999-99"></p-inputMask>
+            </div>
+          </div>
+          <div class="col-4">
+            <label for="celular" class="form-label col-12">Celular: </label>
+            <div class="col-12 pt-0 mt-0">
+              <p-inputMask name="celular" id="celular" [(ngModel)]="funcionario.celular!" mask="(99) 99999-999?9" [unmask]="true"></p-inputMask>
+            </div>
+          </div>
+          <div class="col-4">
+            <label for="celular" class="form-label col-12">Permissão: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-dropdown [required]="true" [options]="permissoes" [(ngModel)]="papel" name="papel"
+                          dataKey="permissao" optionLabel="descricao" appendTo="body" ></p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ng-template pTemplate="footer">
+      <button class="btn btn-sm btn-success me-2" (click)="save()" [disabled]="f.invalid">
+        <i class="fa fa-check"></i> Salvar
+      </button>
+      <button class="btn btn-sm btn-danger" (click)="hideDialog()">
+        <i class="fa fa-ban"></i> Cancelar
+      </button>
+    </ng-template>
+  </p-dialog>
+</div>

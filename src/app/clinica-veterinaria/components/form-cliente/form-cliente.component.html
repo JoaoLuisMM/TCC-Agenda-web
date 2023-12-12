@@ -1,0 +1,85 @@
+<div class="card flex justify-content-center" *ngIf="cliente">
+  <p-dialog header="Header" [(visible)]="visible" [style]="{ width: '35vw' }" [modal]="true"
+            [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">{{titulo}}</span>
+    </ng-template>
+    <form #f="ngForm" autocomplete="off">
+      <div class="flex flex-column gap-2">
+        <div class="row g-3 pt-2">
+          <label for="nome" class="form-label col-6">Nome: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required pInputText type="text" class="form-control" placeholder="Informe o nome do cliente"
+                   id="nome" name="nome" [(ngModel)]="cliente.nome" />
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <div class="col-6">
+            <label for="especie" class="form-label col-6">Espécie: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-dropdown [filter]="true" [required]="true" appendTo="body" id="especie" name="especie" [(ngModel)]="cliente.especie"
+                          [style]="{ width: '100%'}" [options]="especies" dataKey="id" optionLabel="descricao"></p-dropdown>
+            </div>
+          </div>
+          <div class="col-6">
+            <label for="sexo" class="form-label col-6">Sexo: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-dropdown [filter]="true" [required]="true" appendTo="body" id="sexo" name="sexo" [(ngModel)]="cliente.sexo"
+                          [style]="{ width: '100%'}" [options]="sexo"></p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <div class="col-6">
+            <label for="raca" class="form-label col-6">Raça: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <input required pInputText type="text" class="form-control" placeholder="Informe a raça do cliente"
+                     id="raca" name="raca" [(ngModel)]="cliente.raca" />
+            </div>
+          </div>
+          <div class="col-6">
+            <label class="form-label" for="dataNascimento">Data de nascimento: </label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" id="dataNascimento" name="dataNascimento" [(ngModel)]="cliente.dataNascimento"></p-calendar>
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <label for="nomeTutor" class="form-label col-6">Tutor: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required pInputText type="text" class="form-control" placeholder="Informe o nome do tutor"
+                   id="nomeTutor" name="nomeTutor" [(ngModel)]="cliente.nomeTutor" />
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <label for="email" class="form-label col-6">e-mail tutor: *</label>
+          <div class="col-12 pt-0 mt-0">
+            <input required pInputText type="text" class="form-control" placeholder="Informe o e-mail do tutor"
+                   id="email" name="email" [(ngModel)]="cliente.email" />
+          </div>
+        </div>
+        <div class="row g-3 pt-2">
+          <div class="col-3">
+            <label for="nomeTutor" class="form-label">Celular tutor: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-inputMask name="celular" id="celular" [(ngModel)]="cliente.celular" [style]="{width: '100%'}"
+                           mask="(99)99999-999?9" [unmask]="true"></p-inputMask>
+            </div>
+          </div>
+          <div class="col-3">
+            <label for="cpf" class="form-label">CPF tutor: *</label>
+            <p-inputMask [required]="true" id="cpf" name="cpf" [disabled]="this.cliente.id != null" [style]="{width: '100%'}"
+                         mask="999.999.999-99" [(ngModel)]="cliente.cpf" [unmask]="true"
+                         placeholder="999.999.999-99"></p-inputMask>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ng-template pTemplate="footer">
+      <button class="btn btn-sm btn-success me-2" (click)="save()" [disabled]="f.invalid">
+        <i class="fa fa-check"></i> Salvar
+      </button>
+      <button class="btn btn-sm btn-danger" (click)="hideDialog()">
+        <i class="fa fa-ban"></i> Cancelar
+      </button>
+    </ng-template>
+  </p-dialog>
+</div>

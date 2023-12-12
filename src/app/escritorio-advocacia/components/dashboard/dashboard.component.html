@@ -1,0 +1,94 @@
+<div class='demo-appx'>
+  <div class='demo-app-main'>
+    <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
+      <ng-template #eventContent let-arg>
+        <b>{{arg.timeText}}</b>
+        <i>{{arg.event.title}}</i>
+      </ng-template>
+    </full-calendar>
+  </div>
+</div>
+
+<div class="card flex justify-content-center" *ngIf="agendamento">
+  <form #f="ngForm" autocomplete="off">
+    <p-dialog header="Header" [(visible)]="showModal" [modal]="true"
+              [draggable]="false" [resizable]="false" [style]="{ width: '35vw' }">
+      <ng-template pTemplate="header">
+        <span class="text-xl font-bold">{{titulo}}</span>
+      </ng-template>
+      <div class="flex flex-column">
+        <div class="row g-3">
+          <label for="cliente" class="form-label col-6 pt-2 pb-0">Cliente: *</label>
+          <div class="col-11 mt-0">
+            <p-dropdown [filter]="true" [required]="true" appendTo="body" id="cliente" name="cliente" [(ngModel)]="agendamento.cliente"
+                        [style]="{ width: '100%'}" [options]="clientes" dataKey="id" optionLabel="nome"></p-dropdown>
+          </div>
+          <div class="col-1 mt-0 ps-0">
+            <button pButton class="btn btn-sm btn-success" (click)="newClient()" styleClass="p-button-text">
+              <i class="pi pi-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row g-3">
+          <label class="form-label col-6 pb-0" for="advogado">Advogado: *</label>
+          <div class="col-12 mt-0">
+            <p-dropdown [filter]="true" [required]="true" appendTo="body" id="advogado" name="advogado" [(ngModel)]="agendamento.advogado"
+                        [style]="{ width: '100%'}" [options]="advogados" dataKey="id" optionLabel="nome"></p-dropdown>
+          </div>
+        </div>
+        <div class="row g-3">
+          <label class="form-label col-6 pb-0" for="advogado">Tipo de compromisso: *</label>
+          <div class="col-12 mt-0">
+            <p-dropdown [required]="true" appendTo="body" id="tipoCompromisso" name="tipoCompromisso" [(ngModel)]="agendamento.tipoCompromisso"
+                        [style]="{ width: '100%'}" [options]="tiposCompromissos"></p-dropdown>
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label col-6 pb-0" for="numeroProcesso">Nº do processo:</label>
+            <div class="col-12 mt-0">
+              <input pInputText type="text" class="form-control" id="numeroProcesso" name="numeroProcesso" [(ngModel)]="agendamento.numeroProcesso">
+            </div>
+          </div>
+          <div class="col-6">
+            <label class="form-label col-6 pb-0" for="comarca">Comarca:</label>
+            <div class="col-12 mt-0">
+              <input pInputText type="text" class="form-control" id="comarca" name="comarca" [(ngModel)]="agendamento.comarca">
+            </div>
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label col-6 pb-0" for="dataInicial">Hora de Início: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-inputMask [required]="true" name="dataInicial" id="dataInicial"
+                           [(ngModel)]="horaInicial" mask="99:99"></p-inputMask>
+            </div>
+          </div>
+          <div class="col-6">
+            <label class="form-label col-6 pb-0" for="dataInicial">Hora de Fim: *</label>
+            <div class="col-12 pt-0 mt-0">
+              <p-inputMask [required]="true" name="dataFinal" id="dataFinal"
+                           [(ngModel)]="horaFinal" mask="99:99"></p-inputMask>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton class="btn btn-sm btn-success me-2" [disabled]="f.invalid" (click)="handleDateSelect()">
+          <i class="pi pi-check" aria-hidden="true"></i> Salvar
+        </button>
+        <button *ngIf="agendamento.id" pButton class="btn btn-sm btn-danger me-2" (click)="delete()">
+          <i class="pi pi-" aria-hidden="true"></i> Excluir
+        </button>
+        <button pButton class="btn btn-sm btn-danger" (click)="cancel()">
+          <i class="pi pi-" aria-hidden="true"></i> Cancelar
+        </button>
+      </ng-template>
+    </p-dialog>
+  </form>
+</div>
+
+<div class="card flex justify-content-center">
+  <app-form-cadastro-cliente [visible]="showDialog" [cliente]="cliente" (closeDialog)="closeDialog($event)" (saveOrUpdate)="save($event)"></app-form-cadastro-cliente>
+</div>

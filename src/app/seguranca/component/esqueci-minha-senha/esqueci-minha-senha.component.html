@@ -1,0 +1,33 @@
+<div class="container" style="max-width: 550px; margin: auto">
+  <div class="card">
+    <div class="card-body pb-0">
+      <h5 class="card-title">
+        <span>Esqueci minha senha</span>
+      </h5>
+      <form #f="ngForm" autocomplete="off">
+        <div class="card-text">
+          Informe o seu CPF (somente números) e clique em "Solicitar nova senha".<br>
+          Uma nova senha será enviada para o seu e-mail cadastrado no sistema.<br>
+          Após entrar com a nova senha, você poderá alterar para uma senha de sua preferência.
+        </div>
+        <div class="mt-4">
+          <label for="cpf" class="form-label mb-1"><b>CPF (somente números): *</b></label>
+          <br>
+          <p-inputMask name="cpf" id="cpf" mask="999.999.999-99" autofocus [required]="true" [unmask]="true" [(ngModel)]="cpf"></p-inputMask>
+          <div class="mt-4 mb-3">
+            <button type="button" routerLink="/" class="btn btn-sm btn-secondary">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              <span> Voltar</span>
+            </button>
+            <button type="button" (click)="solicitaNovaSenha()" class="btn btn-sm btn-success ms-2" [disabled]="f.invalid || solicitandoNovaSenha === true">
+              <i class="fa fa-check" aria-hidden="true"></i>
+              <span *ngIf="solicitandoNovaSenha === false"> Solicitar nova senha</span>
+              <span *ngIf="solicitandoNovaSenha === true"> Por favor, aguarde...</span>
+            </button>
+          </div>
+          <div *ngIf="mensagem" class="alert alert-danger">{{mensagem}}</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~primeng/resources/primeng.min.css';
+@import "~primeng/resources/themes/lara-light-blue/theme.css";
+/*@import "~node_modules/primeflex/primeflex.css";*/
+@import '~primeicons/primeicons.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import 'assets/style/primeng.css';
+
+html {
+  position: relative;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Para o tamanho da fonte padrão do sistema */
+  font-size: 0.8rem;
+  /*padding-top: 60px;*/
+  /* Para o rodapé - componente footer */
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin: 0px 0px 30px;
+}
+
+.p-toast {
+  opacity: unset !important;
+}
+
+dl, ol, ul {
+  margin: 0 !important;
+}
+
+ol, ul {
+  padding-left: 1px !important;
+}
+
+.form-label {
+  margin-bottom: 0.1rem;
+}
+
+.d-md-block {
+  color: #fff;
+}
+
+.agendaweb-app-header {
+  height: 55px;
+  background-color: #3a3633;
+}
+
+.active {
+  color: blue !important;
+}
+
+/* -- */
+.MainComponent {
+  margin-left: -1%;
+  margin-top: -1px;
+}
+
+.navbar {
+  padding: 20px 0 10px;
+  /*background-color: #1e94d2;*/
+}
+
+.navbar-toggle {
+  color: #fff;
+}
+
+.navbar-menu {
+  position: fixed;
+  top: 55px;
+  bottom: 30px;
+  left: 0;
+  width: 260px;
+  margin: 0;
+  padding: 0;
+  z-index: 9998;
+  background-color: #3a3633;
+  list-style: none;
+}
+
+.navbar-usuario {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #525151;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fff;
+}
+
+.navbar-menuitem {
+  padding: 10px;
+}
+
+.navbar-menuitem a {
+  color: #c0bbb7;
+  text-decoration: none;
+}
+
+.navbar-menuitem a:hover {
+  color: #fff;
+}
+
+.navbar-menuitem.ativo {
+  background-color: #494541;
+}
+
+.colunaCodigo {
+  text-align: right;
+}
